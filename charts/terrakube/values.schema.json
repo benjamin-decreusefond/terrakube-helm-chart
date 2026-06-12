@@ -1376,6 +1376,15 @@
                         },
                         "secretKey": {
                             "type": "string"
+                        },
+                        "existingSecret": {
+                            "type": "string"
+                        },
+                        "existingSecretAccessKeyKey": {
+                            "type": "string"
+                        },
+                        "existingSecretSecretKeyKey": {
+                            "type": "string"
                         }
                     }
                 }

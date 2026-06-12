@@ -478,6 +478,13 @@ Once you have completed the above steps you can complete the file values.yaml to
 | storage.aws.bucketName                    | No       | Aws bucket name                                                        |
 | storage.aws.region                        | No       | Aws region name (Example: us-east-1)                                   |
 | storage.aws.endpoint                      | No       | Setup custom endpoint (MinIO)                                          |
+| storage.minio.accessKey                   | No       | MinIO/Garage access key (ignored when existingSecret is set)           |
+| storage.minio.secretKey                   | No       | MinIO/Garage secret key (ignored when existingSecret is set)           |
+| storage.minio.bucketName                  | No       | MinIO/Garage bucket name                                               |
+| storage.minio.endpoint                    | No       | MinIO/Garage S3 endpoint                                               |
+| storage.minio.existingSecret              | No       | Name of an existing secret holding the MinIO/Garage credentials        |
+| storage.minio.existingSecretAccessKeyKey  | No       | Key in existingSecret for the access key (default: accessKey)          |
+| storage.minio.existingSecretSecretKeyKey  | No       | Key in existingSecret for the secret key (default: secretKey)          |
 | dex.enabled                               | No       | Enable Dex OIDC authentication component                              |
 | dex.*                                     | No       | Setup based on https://github.com/dexidp/helm-charts                   |
 | minio.*                                   | No       | Setup based on https://github.com/bitnami/charts/tree/main/bitnami/minio    |

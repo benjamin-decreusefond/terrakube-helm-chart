@@ -74,6 +74,7 @@ spec:
         - name: SERVICE_BINDING_ROOT
           value: /mnt/platform/bindings
         {{- end }}
+        {{- include "terrakube.storage.minio.secretEnv" (dict "ctx" . "access" (list "AwsStorageAccessKey") "secret" (list "AwsStorageSecretKey")) | nindent 8 }}
         {{- with .Values.api.env }}
         {{- toYaml . | nindent 8 }}
         {{- end }}

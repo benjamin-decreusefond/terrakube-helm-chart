@@ -58,7 +58,7 @@ data:
   AwsEndpoint: ''
   {{- end }}
 
-  {{- if and (.Values.storage.minio).bucketName (.Values.storage.minio).accessKey (.Values.storage.minio).secretKey (.Values.storage.minio).endpoint }}
+  {{- if eq (include "terrakube.storage.minio.enabled" .) "true" }}
   #MINIO S3 Storage
   TerraformStateType: 'AwsTerraformStateImpl' # MINIO USES THE AWS LIBRARY
   AwsTerraformStateBucketName: '{{ .Values.storage.minio.bucketName }}'

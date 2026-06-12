@@ -43,6 +43,47 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
 {{/*
+Returns "true" when MINIO/Garage terraform storage is configured.
+Requires bucketName and endpoint, plus either inline accessKey/secretKey
+or a reference to an existing Kubernetes secret.
+*/}}
+{{- define "terrakube.storage.minio.enabled" -}}
+{{- if and (.Values.storage.minio).bucketName (.Values.storage.minio).endpoint -}}
+{{- if or (and (.Values.storage.minio).accessKey (.Values.storage.minio).secretKey) (.Values.storage.minio).existingSecret -}}
+true
+{{- end -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Emits container env entries that source the MINIO/Garage credentials from an
+existing Kubernetes secret. Only rendered when an existingSecret is configured
+for the (non default) MINIO storage.
+Usage:
+  {{- include "terrakube.storage.minio.secretEnv" (dict "ctx" . "access" (list "AwsStorageAccessKey") "secret" (list "AwsStorageSecretKey")) | nindent 8 }}
+*/}}
+{{- define "terrakube.storage.minio.secretEnv" -}}
+{{- $ctx := .ctx -}}
+{{- $m := $ctx.Values.storage.minio -}}
+{{- if and (not $ctx.Values.storage.defaultStorage) (eq (include "terrakube.storage.minio.enabled" $ctx) "true") $m.existingSecret -}}
+{{- range .access }}
+- name: {{ . }}
+  valueFrom:
+    secretKeyRef:
+      name: {{ $m.existingSecret | quote }}
+      key: {{ $m.existingSecretAccessKeyKey | default "accessKey" | quote }}
+{{- end }}
+{{- range .secret }}
+- name: {{ . }}
+  valueFrom:
+    secretKeyRef:
+      name: {{ $m.existingSecret | quote }}
+      key: {{ $m.existingSecretSecretKeyKey | default "secretKey" | quote }}
+{{- end }}
+{{- end -}}
+{{- end -}}
+
+{{/*
 Selector labels
 */}}
 {{- define "terrakube.selectorLabels" -}}
