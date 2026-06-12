@@ -142,6 +142,13 @@ storage:
     secretKey: ""
     bucketName: ""
     endpoint: ""
+    # Pull the MINIO/Garage access & secret keys from an existing Kubernetes secret
+    # instead of setting them in plaintext above. When `existingSecret` is set, the
+    # values of `accessKey`/`secretKey` are ignored and the credentials are injected
+    # into the api, executor and registry pods via secretKeyRef.
+    existingSecret: ""
+    existingSecretAccessKeyKey: "accessKey"
+    existingSecretSecretKeyKey: "secretKey"
   gcp:
     projectId: ""
     bucketName: ""
