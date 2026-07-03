@@ -84,6 +84,34 @@ Usage:
 {{- end -}}
 
 {{/*
+Emits container env entries that source the AWS S3 credentials from an
+existing Kubernetes secret. Only rendered when an existingSecret is configured
+for the (non default) AWS storage.
+Usage:
+  {{- include "terrakube.storage.aws.secretEnv" (dict "ctx" . "access" (list "AwsStorageAccessKey") "secret" (list "AwsStorageSecretKey")) | nindent 8 }}
+*/}}
+{{- define "terrakube.storage.aws.secretEnv" -}}
+{{- $ctx := .ctx -}}
+{{- $a := $ctx.Values.storage.aws -}}
+{{- if and (not $ctx.Values.storage.defaultStorage) $a.bucketName $a.region $a.existingSecret -}}
+{{- range .access }}
+- name: {{ . }}
+  valueFrom:
+    secretKeyRef:
+      name: {{ $a.existingSecret | quote }}
+      key: {{ $a.existingSecretAccessKeyKey | default "accessKey" | quote }}
+{{- end }}
+{{- range .secret }}
+- name: {{ . }}
+  valueFrom:
+    secretKeyRef:
+      name: {{ $a.existingSecret | quote }}
+      key: {{ $a.existingSecretSecretKeyKey | default "secretKey" | quote }}
+{{- end }}
+{{- end -}}
+{{- end -}}
+
+{{/*
 Selector labels
 */}}
 {{- define "terrakube.selectorLabels" -}}

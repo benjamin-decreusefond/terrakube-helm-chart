@@ -473,11 +473,14 @@ Once you have completed the above steps you can complete the file values.yaml to
 | storage.azure.storageAccountName          | No       | Azure storage account name                                             |
 | storage.azure.storageAccountResourceGroup | No       | Azure storage resource group                                           |
 | storage.azure.storageAccountAccessKey     | No       | Azure storage access key                                               |
-| storage.aws.accessKey                     | No       | Aws access key                                                         |
-| storage.aws.secretKey                     | No       | Aws secret key                                                         |
+| storage.aws.accessKey                     | No       | Aws access key (ignored when existingSecret is set)                    |
+| storage.aws.secretKey                     | No       | Aws secret key (ignored when existingSecret is set)                    |
 | storage.aws.bucketName                    | No       | Aws bucket name                                                        |
 | storage.aws.region                        | No       | Aws region name (Example: us-east-1)                                   |
 | storage.aws.endpoint                      | No       | Setup custom endpoint (MinIO)                                          |
+| storage.aws.existingSecret                | No       | Name of an existing secret holding the AWS credentials                 |
+| storage.aws.existingSecretAccessKeyKey    | No       | Key in existingSecret for the access key (default: accessKey)          |
+| storage.aws.existingSecretSecretKeyKey    | No       | Key in existingSecret for the secret key (default: secretKey)          |
 | storage.minio.accessKey                   | No       | MinIO/Garage access key (ignored when existingSecret is set)           |
 | storage.minio.secretKey                   | No       | MinIO/Garage secret key (ignored when existingSecret is set)           |
 | storage.minio.bucketName                  | No       | MinIO/Garage bucket name                                               |

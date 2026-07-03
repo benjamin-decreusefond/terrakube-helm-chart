@@ -55,6 +55,7 @@ spec:
           value: /mnt/platform/bindings
         {{- end }}
         {{- include "terrakube.storage.minio.secretEnv" (dict "ctx" . "access" (list "AwsStorageAccessKey") "secret" (list "AwsStorageSecretKey")) | nindent 8 }}
+        {{- include "terrakube.storage.aws.secretEnv" (dict "ctx" . "access" (list "AwsStorageAccessKey") "secret" (list "AwsStorageSecretKey")) | nindent 8 }}
         {{- with .Values.registry.env }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
